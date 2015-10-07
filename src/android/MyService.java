@@ -101,8 +101,11 @@ public class MyService extends BackgroundService implements LocationListener {
 	}
 
 	@Override
-	public void onProviderEnabled ( String provider ) { }
+	public void onStatusChanged(String provider , int status , Bundle extras) { }
 
 	@Override
-	public void onProviderDisabled ( String provider ) { }
+	public void onProviderEnabled(String provider) { }
+
+	@Override
+	public void onProviderDisabled(String provider) { }
 }
