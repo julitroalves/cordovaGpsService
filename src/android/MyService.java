@@ -51,23 +51,19 @@ public class MyService extends BackgroundService implements LocationListener {
 	}
 
 	public void doLocation() {
-		try {
-			locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
-			
-			Criteria criteria = new Criteria();
-			provider = locationManager.getBestProvider(criteria, false);
+		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+		
+		Criteria criteria = new Criteria();
+		provider = locationManager.getBestProvider(criteria, false);
 
-			// Register the listener with the Location Manager to receive location updates
-			locationManager.requestLocationUpdates(provider, 0, 0, this);
-			
-			Location location = locationManager.getLastKnownLocation(provider);
-			if ( location != null ) {
-				Log.d(TAG , " Provider " + provider + " foi selecionado . ");
-				onLocationChanged(location);
-			}
-		} catch (Exception e) {
-      e.printStackTrace();
-    }
+		// Register the listener with the Location Manager to receive location updates
+		locationManager.requestLocationUpdates(provider, 0, 0, this);
+		
+		Location location = locationManager.getLastKnownLocation(provider);
+		if ( location != null ) {
+			Log.d(TAG , " Provider " + provider + " foi selecionado . ");
+			onLocationChanged(location);
+		}
 	}
 
 	@Override
