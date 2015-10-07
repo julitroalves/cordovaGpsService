@@ -26,7 +26,6 @@ public class MyService extends BackgroundService implements LocationListener {
 	private LocationManager locationManager;
 	private String provider;
 	private Context mContext;
-	private Location location;
 
 	public MyService(Context context) {
     this.mContext = context;
@@ -61,10 +60,10 @@ public class MyService extends BackgroundService implements LocationListener {
 			// Register the listener with the Location Manager to receive location updates
 			locationManager.requestLocationUpdates(provider, 0, 0, this);
 			
-			this.location = locationManager.getLastKnownLocation(provider);
-			if ( this.location != null ) {
+			Location location = locationManager.getLastKnownLocation(provider);
+			if ( location != null ) {
 				Log.d(TAG , " Provider " + provider + " foi selecionado . ");
-				onLocationChanged(this.location);
+				onLocationChanged(location);
 			}
 		} catch (Exception e) {
       e.printStackTrace();
