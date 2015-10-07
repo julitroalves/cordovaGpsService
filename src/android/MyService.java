@@ -100,5 +100,9 @@ public class MyService extends BackgroundService implements LocationListener {
 		// TODO Auto-generated method stub	
 	}
 
+	@Override
+	public void onProviderEnabled ( String provider ) { }
 
+	@Override
+	public void onProviderDisabled ( String provider ) { }
 }
