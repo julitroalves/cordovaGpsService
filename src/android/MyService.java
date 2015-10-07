@@ -17,19 +17,11 @@ import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 
-public class MyService extends BackgroundService implements LocationListener {
+public class MyService extends BackgroundService {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
 	private String mHelloTo = "World";
-
-	private LocationManager locationManager;
-	private String provider;
-	private Context mContext;
-
-	// public MyService(Context context) {
- //    this.mContext = context;
- //  }
 
 	@Override
 	protected JSONObject doWork() {
@@ -51,23 +43,28 @@ public class MyService extends BackgroundService implements LocationListener {
 	}
 
 	public void doLocation() {
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-		
-		Criteria criteria = new Criteria();
-		provider = locationManager.getBestProvider(criteria, false);
+		// Acquire a reference to the system Location Manager
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+		// Define a listener that responds to location updates
+		LocationListener locationListener = new LocationListener() {
+		    public void onLocationChanged(Location location) {
+		      // Called when a new location is found by the network location provider.
+		      makeUseOfNewLocation(location);
+		    }
+
+		    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+		    public void onProviderEnabled(String provider) {}
+
+		    public void onProviderDisabled(String provider) {}
+		  };
 
 		// Register the listener with the Location Manager to receive location updates
-		locationManager.requestLocationUpdates(provider, 0, 0, this);
-		
-		// Location location = locationManager.getLastKnownLocation(provider);
-		// if ( location != null ) {
-		// 	Log.d(TAG , " Provider " + provider + " foi selecionado . ");
-		// 	onLocationChanged(location);
-		// }
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 	}
 
-	@Override
-	public void onLocationChanged ( Location location ) { }
+	public void makeUseOfNewLocation(Location location) { }
 
 	@Override
 	protected JSONObject getConfig() {
@@ -106,13 +103,4 @@ public class MyService extends BackgroundService implements LocationListener {
 	protected void onTimerDisabled() {
 		// TODO Auto-generated method stub	
 	}
-
-	@Override
-	public void onStatusChanged(String provider , int status , Bundle extras) { }
-
-	@Override
-	public void onProviderEnabled(String provider) { }
-
-	@Override
-	public void onProviderDisabled(String provider) { }
 }
