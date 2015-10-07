@@ -59,11 +59,11 @@ public class MyService extends BackgroundService implements LocationListener {
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(provider, 0, 0, this);
 		
-		Location location = locationManager.getLastKnownLocation(provider);
-		if ( location != null ) {
-			Log.d(TAG , " Provider " + provider + " foi selecionado . ");
-			onLocationChanged(location);
-		}
+		// Location location = locationManager.getLastKnownLocation(provider);
+		// if ( location != null ) {
+		// 	Log.d(TAG , " Provider " + provider + " foi selecionado . ");
+		// 	onLocationChanged(location);
+		// }
 	}
 
 	@Override
