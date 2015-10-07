@@ -26,6 +26,7 @@ public class MyService extends BackgroundService implements LocationListener {
 	private LocationManager locationManager;
 	private String provider;
 	private Context mContext;
+	Location location;
 
 	public MyService(Context context) {
       this.mContext = context;
