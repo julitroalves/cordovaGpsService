@@ -6,21 +6,33 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.Context;
+import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+
 import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 
-public class MyService extends BackgroundService {
+public class MyService extends BackgroundService implements LocationListener {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
 	private String mHelloTo = "World";
 
+	private LocationManager locationManager;
+	private String provider;
+
 	@Override
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
-		
+
 		try {
+			doLocation();
+
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 			String now = df.format(new Date(System.currentTimeMillis())); 
 
@@ -33,6 +45,22 @@ public class MyService extends BackgroundService {
 		
 		return result;	
 	}
+
+	public void doLocation() {
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		
+		Criteria criteria = new Criteria();
+		provider = locationManager.getBestProvider(criteria, false);
+		
+		Location location = locationManager.getLastKnownLocation(provider);
+		if ( location != null ) {
+			Log.d(TAG , " Provider " + provider + " foi selecionado . ");
+			onLocationChanged(location);
+		}
+	}
+
+	@Override
+	public void onLocationChanged ( Location location ) { }
 
 	@Override
 	protected JSONObject getConfig() {
@@ -65,13 +93,11 @@ public class MyService extends BackgroundService {
 	@Override
 	protected void onTimerEnabled() {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected void onTimerDisabled() {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub	
 	}
 
 
