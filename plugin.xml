@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        id="br.com.speracar.gpsservice"
+        version="2.0.0">
+
+    <name>SperaCar Background GPS Service Plugin</name>
+
+    <description>
+        Service to get location of user and send to server in background.
+    </description>
+
+    <license>Apache 2.0</license>
+
+    <engines>
+        <engine name="cordova" version=">=3.0.0"/>
+    </engines>
+
+	<!-- Load in the core background service -->
+	<dependency id="com.red_folder.phonegap.plugin.backgroundservice" url="https://github.com/Red-Folder/bgs-core.git" commit="e2eee2495f0e50b9968d7dc144559ffde69fb788" />
+
+    <!-- android -->
+    <platform name="android">
+
+		<asset src="www/myService.html" target="myService.html" />
+
+		<js-module src="www/myService.js" name="MyService">
+			<clobbers target="cordova.plugins.myService" />
+		</js-module>
+
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+  
+            <service android:name="br.com.speracar.gpsservice.MyService">
+                <intent-filter>         
+                    <action android:name="br.com.speracar.gpsservice.MyService"/> 
+                </intent-filter>     
+            </service>
+
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+            
+        </config-file>
+        
+        <source-file src="src/android/MyService.java" target-dir="src/br/com/speracar/gpsservice" />
+    </platform>
+	
+</plugin>
