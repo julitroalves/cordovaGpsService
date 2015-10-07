@@ -26,16 +26,16 @@ public class MyService extends BackgroundService implements LocationListener {
 	private LocationManager locationManager;
 	private String provider;
 	private Context mContext;
-	Location location;
+	private Location location;
 
 	public MyService(Context context) {
-      this.mContext = context;
-      doLocation();
+    this.mContext = context;
   }
 
 	@Override
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
+    doLocation();
 
 		try {
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
@@ -51,23 +51,24 @@ public class MyService extends BackgroundService implements LocationListener {
 		return result;	
 	}
 
-	public Location doLocation() {
+	public void doLocation() {
 		try {
 			locationManager = (LocationManager) mContext.getSystemService(LOCATION_SERVICE);
 			
 			Criteria criteria = new Criteria();
 			provider = locationManager.getBestProvider(criteria, false);
+
+			// Register the listener with the Location Manager to receive location updates
+			locationManager.requestLocationUpdates(provider, 0, 0, this);
 			
-			Location location = locationManager.getLastKnownLocation(provider);
-			if ( location != null ) {
+			this.location = locationManager.getLastKnownLocation(provider);
+			if ( this.location != null ) {
 				Log.d(TAG , " Provider " + provider + " foi selecionado . ");
-				onLocationChanged(location);
+				onLocationChanged(this.location);
 			}
 		} catch (Exception e) {
       e.printStackTrace();
     }
-
-    return location;
 	}
 
 	@Override
