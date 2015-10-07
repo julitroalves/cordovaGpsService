@@ -27,9 +27,9 @@ public class MyService extends BackgroundService implements LocationListener {
 	private String provider;
 	private Context mContext;
 
-	public MyService(Context context) {
-    this.mContext = context;
-  }
+	// public MyService(Context context) {
+ //    this.mContext = context;
+ //  }
 
 	@Override
 	protected JSONObject doWork() {
@@ -51,7 +51,7 @@ public class MyService extends BackgroundService implements LocationListener {
 	}
 
 	public void doLocation() {
-		locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 		
 		Criteria criteria = new Criteria();
 		provider = locationManager.getBestProvider(criteria, false);
