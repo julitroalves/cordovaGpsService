@@ -23,7 +23,6 @@ public class MyService extends BackgroundService implements LocationListener {
 	
 	private String mHelloTo = "World";
 
-	private LocationManager locationManager;		
 	private String provider;
 
 	@Override
@@ -52,7 +51,7 @@ public class MyService extends BackgroundService implements LocationListener {
 			@Override
       public void run() {
 				// Acquire a reference to the system Location Manager
-				locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+				LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 				Criteria criteria = new Criteria();
 				provider = locationManager.getBestProvider(criteria, false);
@@ -64,7 +63,7 @@ public class MyService extends BackgroundService implements LocationListener {
 				
 				Log.d(TAG, "Location Updates Registered!");
       }
-      
+
 		}).start();
 
 	}
