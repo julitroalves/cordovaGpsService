@@ -17,11 +17,14 @@ import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 
-public class MyService extends BackgroundService {
+public class MyService extends BackgroundService implements LocationListener {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
 	private String mHelloTo = "World";
+
+	private LocationManager locationManager;		
+	private String provider;
 
 	@Override
 	protected JSONObject doWork() {
@@ -45,33 +48,20 @@ public class MyService extends BackgroundService {
 
 	public void doLocation() {
 		// Acquire a reference to the system Location Manager
-		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		// Define a listener that responds to location updates
-		LocationListener locationListener = new LocationListener() {
-		    public void onLocationChanged(Location location) {
-					Log.d(TAG, "On Location Changed!");
-					
-		      // Called when a new location is found by the network location provider.
-		      makeUseOfNewLocation(location);
-		    }
-
-		    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-		    public void onProviderEnabled(String provider) {}
-
-		    public void onProviderDisabled(String provider) {}
-		  };
+		Criteria criteria = new Criteria();
+		provider = locationManager.getBestProvider(criteria, false);
 
 		Log.d(TAG, "Registering location updates!");
 
 		// Register the listener with the Location Manager to receive location updates
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
 		
 		Log.d(TAG, "Location Updates Registered!");
 	}
 
-	public void makeUseOfNewLocation(Location location) {
+	public void onLocationChanged(Location location) {
 		Log.d(TAG, "Make Use of new Location!");
 	}
 
@@ -112,4 +102,13 @@ public class MyService extends BackgroundService {
 	protected void onTimerDisabled() {
 		// TODO Auto-generated method stub	
 	}
+		
+	@Override		
+	public void onStatusChanged(String provider , int status , Bundle extras) { }		
+		
+	@Override		
+	public void onProviderEnabled(String provider) { }		
+		
+	@Override		
+	public void onProviderDisabled(String provider) { }
 }
