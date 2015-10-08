@@ -23,7 +23,7 @@ public class MyService extends BackgroundService {
 	private final static String TAG = MyService.class.getSimpleName();
 	
 	private String mHelloTo = "World";
-
+	private Looper mLooper;
 	private String provider;
 
 	@Override
@@ -31,6 +31,10 @@ public class MyService extends BackgroundService {
 		JSONObject result = new JSONObject();
 
 		try {
+			if (mLooper != null) {
+				mLooper.quit();
+			}
+
     	doLocation();
 
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
@@ -74,6 +78,7 @@ public class MyService extends BackgroundService {
 				// Prepare the Looper
 				Log.d(TAG, "Preparing Looper");
 				Looper.prepare();
+				mLooper = Looper.myLooper();
 
 				Log.d(TAG, "Registering location updates!");
 
