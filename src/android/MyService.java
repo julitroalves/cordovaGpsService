@@ -94,6 +94,19 @@ public class MyService extends BackgroundService {
 				makeUseOfNewLocation(locationManager.getLastKnownLocation(provider));
 
 				Looper.loop();
+
+				// If we have come out of the loop, then we need to free everything
+				Log.d(TAG, "Looper quit, time to destroy");
+				Log.d(TAG, "Removing listener for GPS provider");
+				locationManager.removeUpdates(locationListener);
+
+				Log.d(TAG, "Setting location to null");
+				locationListener = null;
+				
+				Log.d(TAG, "Setting location manager to null");
+				locationManager = null;
+
+				Log.d(TAG, "Run finished");
       }
 
 		}).start();
