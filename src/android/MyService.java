@@ -64,6 +64,8 @@ public class MyService extends BackgroundService {
 				// Define a listener that responds to location updates
 				LocationListener locationListener = new LocationListener() {
 			    public void onLocationChanged(Location location) {
+			    	Log.d(TAG, "Coordenadas: " + location.getLatitude + ", " + location.getLongitude());
+			      
 			      // Called when a new location is found by the network location provider.
 			      // makeUseOfNewLocation(location);
 			    }
