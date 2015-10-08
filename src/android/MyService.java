@@ -11,6 +11,7 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Looper;
 import android.os.Bundle;
 
 import android.util.Log;
@@ -70,12 +71,18 @@ public class MyService extends BackgroundService {
 			    public void onProviderDisabled(String provider) {}
 				};
 
+				// Prepare the Looper
+				Log.d(TAG, "Preparing Looper");
+				Looper.prepare();
+
 				Log.d(TAG, "Registering location updates!");
 
 				// Register the listener with the Location Manager to receive location updates
 				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 				
 				Log.d(TAG, "Location Updates Registered!");
+
+				Looper.loop();
       }
 
 		}.start();
