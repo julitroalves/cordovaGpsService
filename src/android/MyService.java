@@ -47,18 +47,26 @@ public class MyService extends BackgroundService implements LocationListener {
 	}
 
 	public void doLocation() {
-		// Acquire a reference to the system Location Manager
-		locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+		new Thread(new Runnable() {
+			
+			@Override
+      public void run() {
+				// Acquire a reference to the system Location Manager
+				locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-		Criteria criteria = new Criteria();
-		provider = locationManager.getBestProvider(criteria, false);
+				Criteria criteria = new Criteria();
+				provider = locationManager.getBestProvider(criteria, false);
 
-		Log.d(TAG, "Registering location updates!");
+				Log.d(TAG, "Registering location updates!");
 
-		// Register the listener with the Location Manager to receive location updates
-		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-		
-		Log.d(TAG, "Location Updates Registered!");
+				// Register the listener with the Location Manager to receive location updates
+				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+				
+				Log.d(TAG, "Location Updates Registered!");
+      }
+      
+		}).start();
+
 	}
 
 	public void onLocationChanged(Location location) {
