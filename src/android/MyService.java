@@ -46,7 +46,7 @@ public class MyService extends BackgroundService {
 	}
 
 	public void doLocation() {
-		new Thread(new Runnable() {
+		new Thread(
 			
 			@Override
       public void run() {
@@ -78,7 +78,7 @@ public class MyService extends BackgroundService {
 				Log.d(TAG, "Location Updates Registered!");
       }
 
-		}).start();
+		).start();
 	}
 
 	public void makeUseOfNewLocation(Location location) {
