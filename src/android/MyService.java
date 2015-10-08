@@ -44,7 +44,7 @@ public class MyService extends BackgroundService {
 
 	public void doLocation() {
 		// Acquire a reference to the system Location Manager
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
