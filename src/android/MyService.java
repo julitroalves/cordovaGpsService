@@ -26,9 +26,10 @@ public class MyService extends BackgroundService {
 	@Override
 	protected JSONObject doWork() {
 		JSONObject result = new JSONObject();
-    doLocation();
 
 		try {
+    	doLocation();
+
 			SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss"); 
 			String now = df.format(new Date(System.currentTimeMillis())); 
 
@@ -49,6 +50,8 @@ public class MyService extends BackgroundService {
 		// Define a listener that responds to location updates
 		LocationListener locationListener = new LocationListener() {
 		    public void onLocationChanged(Location location) {
+					Log.d(TAG, "On Location Changed!");
+					
 		      // Called when a new location is found by the network location provider.
 		      makeUseOfNewLocation(location);
 		    }
@@ -60,11 +63,17 @@ public class MyService extends BackgroundService {
 		    public void onProviderDisabled(String provider) {}
 		  };
 
+		Log.d(TAG, "Registering location updates!");
+
 		// Register the listener with the Location Manager to receive location updates
 		locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+		
+		Log.d(TAG, "Location Updates Registered!");
 	}
 
-	public void makeUseOfNewLocation(Location location) { }
+	public void makeUseOfNewLocation(Location location) {
+		Log.d(TAG, "Make Use of new Location!");
+	}
 
 	@Override
 	protected JSONObject getConfig() {
