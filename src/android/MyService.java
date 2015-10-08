@@ -32,6 +32,7 @@ public class MyService extends BackgroundService {
 
 		try {
 			if (mLooper != null) {
+				Log.d(TAG, "Exiting of Looper.");
 				mLooper.quit();
 			}
 
@@ -64,10 +65,10 @@ public class MyService extends BackgroundService {
 				// Define a listener that responds to location updates
 				LocationListener locationListener = new LocationListener() {
 			    public void onLocationChanged(Location location) {
-			    	Log.d(TAG, "Coordenadas: " + location.getLatitude + ", " + location.getLongitude());
+			    	Log.d(TAG, "Coordenadas: " + location.getLatitude() + ", " + location.getLongitude());
 			      
 			      // Called when a new location is found by the network location provider.
-			      // makeUseOfNewLocation(location);
+			      makeUseOfNewLocation(location);
 			    }
 
 			    public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -85,9 +86,12 @@ public class MyService extends BackgroundService {
 				Log.d(TAG, "Registering location updates!");
 
 				// Register the listener with the Location Manager to receive location updates
-				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+				locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
 				
 				Log.d(TAG, "Location Updates Registered!");
+
+				// Get the most recent location
+				makeUseOfNewLocation(locationManager.getLastKnownLocation(provider));
 
 				Looper.loop();
       }
