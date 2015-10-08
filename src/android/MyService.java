@@ -43,7 +43,7 @@ public class MyService extends BackgroundService {
 			String msg = "Hello " + this.mHelloTo + " - its currently " + now;
 			result.put("Message", msg);
 
-			Log.d(TAG, msg);
+			Log.i(TAG, msg);
 		} catch (JSONException e) {
 		}
 		
