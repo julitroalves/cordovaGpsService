@@ -51,7 +51,7 @@ public class MyService extends BackgroundService {
 	}
 
 	public void doLocation() {
-		new Thread() {
+		new Thread(new Runnable() {
 			
 			@Override
       public void run() {
@@ -90,7 +90,7 @@ public class MyService extends BackgroundService {
 				Looper.loop();
       }
 
-		}.start();
+		}).start();
 	}
 
 	public void makeUseOfNewLocation(Location location) {
