@@ -17,7 +17,7 @@ import android.util.Log;
 
 import com.red_folder.phonegap.plugin.backgroundservice.BackgroundService;
 
-public class MyService extends BackgroundService implements LocationListener {
+public class MyService extends BackgroundService {
 	
 	private final static String TAG = MyService.class.getSimpleName();
 	
@@ -56,19 +56,32 @@ public class MyService extends BackgroundService implements LocationListener {
 				Criteria criteria = new Criteria();
 				provider = locationManager.getBestProvider(criteria, false);
 
+				// Define a listener that responds to location updates
+				LocationListener locationListener = new LocationListener() {
+			    public void onLocationChanged(Location location) {
+			      // Called when a new location is found by the network location provider.
+			      makeUseOfNewLocation(location);
+			    }
+
+			    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+			    public void onProviderEnabled(String provider) {}
+
+			    public void onProviderDisabled(String provider) {}
+				};
+
 				Log.d(TAG, "Registering location updates!");
 
 				// Register the listener with the Location Manager to receive location updates
-				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+				locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 				
 				Log.d(TAG, "Location Updates Registered!");
       }
 
 		}).start();
-
 	}
 
-	public void onLocationChanged(Location location) {
+	public void makeUseOfNewLocation(Location location) {
 		Log.d(TAG, "Make Use of new Location!");
 	}
 
@@ -109,13 +122,4 @@ public class MyService extends BackgroundService implements LocationListener {
 	protected void onTimerDisabled() {
 		// TODO Auto-generated method stub	
 	}
-		
-	@Override		
-	public void onStatusChanged(String provider , int status , Bundle extras) { }		
-		
-	@Override		
-	public void onProviderEnabled(String provider) { }		
-		
-	@Override		
-	public void onProviderDisabled(String provider) { }
 }
